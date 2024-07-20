@@ -15,6 +15,7 @@ dependencies:
 
   cupertino_icons: ^1.0.6
   dash_chat_2: ^0.0.21
+  chat_gpt_sdk: ^3.0.9
 
 dev_dependencies:
   flutter_test:
