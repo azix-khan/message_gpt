@@ -12,7 +12,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  // initilized openAI object
+  // Initializing the OpenAI Instance
   final _openAI = OpenAI.instance.build(
     token: OPENAI_API_KEY,
     baseOption: HttpSetup(
@@ -26,6 +26,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ChatUser(id: '2', firstName: "Chat", lastName: "Gpt");
 
   final List<ChatMessage> _messages = <ChatMessage>[];
+  final List<ChatUser> _typingUsers = <ChatUser>[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,10 +39,11 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: DashChat(
         currentUser: _currentUser,
+        typingUsers: _typingUsers,
         messageOptions: const MessageOptions(
           currentUserContainerColor: goldenColor,
           containerColor: whiteColor,
-          textColor: blackColor,
+          textColor: Colors.black,
         ),
         onSend: (ChatMessage m) {
           getChatResponse(m);
@@ -55,6 +57,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // print(m.text);
     setState(() {
       _messages.insert(0, m);
+      _typingUsers.add(_gptChatUser);
     });
     // context of previous messeages
     List<Map<String, dynamic>> messagesHistory =
@@ -87,5 +90,9 @@ class _ChatScreenState extends State<ChatScreen> {
         });
       }
     }
+    // Displaying Typing Indicators
+    setState(() {
+      _typingUsers.remove(_gptChatUser);
+    });
   }
 }
